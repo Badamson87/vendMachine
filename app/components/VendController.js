@@ -6,7 +6,6 @@ let vendService = new VendService()
 
 //Updates the total on the page
 function drawTotal(val) {
-  console.log(4)
   document.getElementById('change').innerText = val
 }
 
@@ -19,7 +18,8 @@ function drawProducts() {
   for (let i = 0; i < products.length; i++) {
     const product = products[i];
     if (product.quantity > 0) {
-      template += `
+      template +=
+        `
         <div>
           <p>${product.name} - ${product.price}</p>
           <button onclick="app.controllers.vendController.vendItem(${i})">BUY</button>
@@ -38,10 +38,8 @@ export default class VendController {
     drawProducts()
   }
   addQuarter() {
-    console.log(1)
     //adds quarter to vending machine and returns the total
     let total = vendService.addQuarter()
-    console.log(3)
     //after adding quarter re-draws total
     drawTotal(total)
   }
@@ -49,5 +47,19 @@ export default class VendController {
     //attempts to process the vend item
     let item = vendService.vendItem(productIndex)
     //you will want to check that item exists and then draw it to the screen
+    if (item) {
+      document.getElementById('snack').innerHTML = `
+      <img src="${item.img}"/>
+      `
+    }
+
+  }
+
+
+  //   //return change
+  returnChange() {
+    console.log(1)
+    vendService.returnChange()
+    drawTotal(0)
   }
 }

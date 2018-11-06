@@ -1,29 +1,26 @@
 //PRIVATE
 import VendingMachine from "../models/VendMachine.js";
+import VendFood from "../models/VendFood.js";
+
 
 //instatiates an instance of the vending machine class
-let vm = new VendingMachine(100, [{
-  name: 'Fritos',
-  price: 1,
-  quantity: 3
-}, {
-  name: 'Tab',
-  price: .75,
-  quantity: 10
-}, {
-  name: 'Mt. Dew',
-  price: 1,
-  quantity: 1
-}])
+let vm = new VendingMachine(100, [new VendFood("Fritos", 1, 3, "app/img/fritos.jpg"),
+new VendFood("Tab", .75, 10, "app/img/tab.jpg"), new VendFood("Mt. Dew", 1, 1, "app/img/mt-dew.jpg")
+])
+
+
+
 
 //PUBLIC
 export default class VendService {
   //increases currentTransaction and returns new total
   addQuarter() {
-    console.log(2)
     vm.currentTransaction += .25
     return vm.currentTransaction
   }
+
+
+
   //attempts to get the item requested from its index
   vendItem(productIndex) {
     //check if valid
@@ -35,15 +32,27 @@ export default class VendService {
     }
     return false
   }
+
+
   //updates vending data on successful transaction
   processTransaction(product) {
     product.quantity--
     vm.totalMoney += product.price
     vm.currentTransaction -= product.price
   }
+
+
   //returns all products from the vending machine
   getProducts() {
     //breaks refrence in memory to protect code
     return JSON.parse(JSON.stringify(vm.products))
+  }
+
+
+  // return change function
+
+  returnChange() {
+    console.log(2)
+    vm.currentTransaction = 0
   }
 }
